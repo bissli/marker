@@ -18,19 +18,19 @@ include = [
 [tool.poetry.dependencies]
 python = "^3.10"
 Pillow = "^10.1.0"
-pydantic = "^2.4.2"
-pydantic-settings = "^2.0.3"
-transformers = "^4.45.2"
+pydantic = { version = "*" }
+pydantic-settings = { version = "*" }
+transformers = { version = "*" }
 python-dotenv = "^1.0.0"
 torch = { version = "*" }
-tqdm = "^4.66.1"
+tqdm = { version = "*" }
 ftfy = "^6.1.1"
 rapidfuzz = "^3.8.1"
 surya-ocr = "~0.11.1"
-regex = "^2024.4.28"
+regex = { version = "*" }
 pdftext = "~0.6.0"
 markdownify = "^0.13.1"
-click = "^8.1.7"
+click = { version = "*" }
 markdown2 = "^2.5.2"
 filetype = "^1.2.0"
 scikit-learn = "^1.6.1"
