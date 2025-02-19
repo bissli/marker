@@ -48,7 +48,7 @@ The weights for the models are licensed `cc-by-nc-sa-4.0`, but I will waive that
 
 There's a hosted API for marker available [here](https://www.datalab.to/):
 
-- Supports PDFs, word documents, and powerpoints 
+- Supports PDFs, word documents, and powerpoints
 - 1/4th the price of leading cloud-based competitors
 - High uptime (99.99%), quality, and speed (around 15 seconds to convert a 250 page PDF)
 
@@ -63,7 +63,7 @@ You'll need python 3.10+ and PyTorch.  You may need to install the CPU version o
 Install with:
 
 ```shell
-pip install marker-pdf
+pip install git+https://github.com/bissli/marker.git
 ```
 
 # Usage
@@ -93,7 +93,7 @@ You can pass in PDFs or images.
 Options:
 - `--output_dir PATH`: Directory where output files will be saved. Defaults to the value specified in settings.OUTPUT_DIR.
 - `--output_format [markdown|json|html]`: Specify the format for the output results.
-- `--paginate_output`: Paginates the output, using `\n\n{PAGE_NUMBER}` followed by `-` * 48, then `\n\n` 
+- `--paginate_output`: Paginates the output, using `\n\n{PAGE_NUMBER}` followed by `-` * 48, then `\n\n`
 - `--use_llm`: Uses an LLM to improve accuracy.  You must set your Gemini API key using the `GOOGLE_API_KEY` env var.
 - `--disable_image_extraction`: Don't extract images from the PDF.  If you also specify `--use_llm`, then images will be replaced with a description.
 - `--page_range TEXT`: Specify which pages to process. Accepts comma-separated page numbers and ranges. Example: `--page_range "0,5-10,20"` will process pages 0, 5 through 10, and page 20.
@@ -173,7 +173,7 @@ rendered = converter("FILEPATH")
 
 ### Extract blocks
 
-Each document consists of one or more pages.  Pages contain blocks, which can themselves contain other blocks.  It's possible to programmatically manipulate these blocks.  
+Each document consists of one or more pages.  Pages contain blocks, which can themselves contain other blocks.  It's possible to programmatically manipulate these blocks.
 
 Here's an example of extracting all forms from a document:
 
@@ -213,7 +213,7 @@ text, _, images = text_from_rendered(rendered)
 
 This takes all the same configuration as the PdfConverter.  You can specify the configuration `force_layout_block=Table` to avoid layout detection and instead assume every page is a table.  Set `output_format=json` to also get cell bounding boxes.
 
-You can also run this via the CLI with 
+You can also run this via the CLI with
 ```shell
 marker_single FILENAME --use_llm --force_layout_block Table --converter_cls marker.converters.table.TableConverter --output_format json
 ```
@@ -242,7 +242,7 @@ HTML output is similar to markdown output:
 
 JSON output will be organized in a tree-like structure, with the leaf nodes being blocks.  Examples of leaf nodes are a single list item, a paragraph of text, or an image.
 
-The output will be a list, with each list item representing a page.  Each page is considered a block in the internal marker schema.  There are different types of blocks to represent different elements.  
+The output will be a list, with each list item representing a page.  Each page is considered a block in the internal marker schema.  There are different types of blocks to represent different elements.
 
 Pages have the keys:
 
@@ -304,7 +304,7 @@ All output formats will return a metadata dictionary, with the following fields:
     ], // computed PDF table of contents
     "page_stats": [
       {
-        "page_id":  0, 
+        "page_id":  0,
         "text_extraction_method": "pdftext",
         "block_counts": [("Span", 200), ...]
       },
@@ -320,6 +320,7 @@ When running with the `--use_llm` flag, you have a choice of services you can us
 - `Gemini` - this will use the Gemini developer API by default.  You'll need to pass `--gemini_api_key` to configuration.
 - `Google Vertex` - this will use vertex, which can be more reliable.  You'll need to pass `--vertex_project_id`.  To use it, set `--llm_service=marker.services.vertex.GoogleVertexService`.
 - `Ollama` - this will use local models.  You can configure `--ollama_base_url` and `--ollama_model`. To use it, set `--llm_service=marker.services.ollama.OllamaService`.
+- `Claude` - this will use local models.  To use it, set `--llm_service=marker.services.claude.ClaudeService`.
 
 These services may have additional optional configuration as well - you can see it by viewing the classes.
 
